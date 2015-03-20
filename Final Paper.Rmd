@@ -1,7 +1,6 @@
 ---
 title: "Final Paper"
 output: pdf_document
-fig_caption: yes
 author: "Rob St. Louis and Sasen Cain, for the Pediatric Imaging, Neurocognition and Genetics Study*"
 bibliography: bibliography.bib
 toc: true
@@ -374,6 +373,7 @@ We had three interacting hypothesis. The first is that the allelic variants that
 
 
 \newpage
+
 ###COMT
 ```{r,echo=FALSE}
 # qplot(FDH_3_Household_IncomeLog,UseSubstance,geom=c("point","smooth"),method = "lm",data=Data,facets=.~rs4680)+ylab("Predicted probability of using a su")
@@ -384,7 +384,7 @@ We had three interacting hypothesis. The first is that the allelic variants that
 We conducted a logistic regression, the beta weights and Wald-z values are reported blow. As is clear, nothing except age is signifcant at the $\alpha$=.05 level. There is no evidence that the COMT polymorphism is related to substance use. 
 
 
-**Logistic Regression:Likelihood of using a substance**
+**Logistic Regression on Substance Use*
 ```{r,echo=FALSE,results='asis'}
 # m0 <- glm(UseSubstance~Age +Africa_Ancestry+EastAsia_Ancestry+EastAsia_Ancestry+CentralAsia_Ancestry+Europe_Ancestry,family='binomial',data=Data)
 # 
@@ -420,7 +420,7 @@ xtable(anova(m3,test="Chisq"))
 
 We conducted a similar regression with DRD2. As you can see, the Wald-z statistic is not significant, but there is a trend p<.01 towards an interaction. Because only 10 subjects, we are cautious in interpreting significance. However, the Wald-s test for the interaction is marginally significant (Wald-z=-1.74,p=.0824), and the $\chi^2$ likelihood ratio test is significant $\chi^2$(1)=5.66, p=0.02. 
 
-**Logistic Regression on Likelihood of Using A Substance**
+**Logistic Regression of DRD2 on Substance Use **
 ```{r,echo=FALSE,results='asis'}
 
 # m0 <- glm(UseSubstance~Age+Africa_Ancestry+EastAsia_Ancestry+EastAsia_Ancestry+CentralAsia_Ancestry+Europe_Ancestry,family='binomial',data=Data)
@@ -452,7 +452,7 @@ xtable(anova(m3,test="Chisq"))
 \newpage
 
 
-However, it appeared to be related to age, those over 21, were significantly more likely to have the AG allele that hurts negative reinforcement learning. So we conducted a boostrapping, preserving all the current structure including the fact that 4 of the 10 people with the AG allele were over 21, and reran the Likelihood Ratio Test used above, preserving the at the significance test of the interaction. The p-value identified for our data  was smaller than 95.7% of the 10,000 bootstrapped samples, suggesting there is still boarderline evidence for a real effect. 
+However, it appeared to be related to age, those over 21, were significantly more likely to have the AG allele that hurts negative reinforcement learning. So we conducted a boostrapping, preserving all of current structure that didn't include the  rs12364283 SNP label, and including that 4 of the 10 people with the AG allele were over 21, and reran the Likelihood Ratio Test used above, preserving the at the significance test of the interaction. The p-value identified for our data  was smaller than 95.7% of the 10,000 bootstrapped samples, suggesting there is still boarderline evidence for a real effect. 
 
 
 ```{r,echo=FALSE,results='hide'}
@@ -487,7 +487,7 @@ actual <- anova(m3,test="Chisq")[5,5]
 ```
 \newpage
 
-However, it appears that this might be very sensitive to just a few points, which should make us quite anxious about interpretation. Below the the values plotted, with a linear estimate their to ease interpretation (note we have used logistic regressions to estimate the true values). As should be apparent, those with the GA version of the rs12364283  did not span the whole range of household income (no participant had a reported income below $30,000), and the interaction could be driven by an outlier, which is made larger in the graph below. A conservative way of correcting for this would be to limit the range similarly for those with the AA allele, and removing the outlier, then rerunning the anova. It appears the that in by doing both, the relationship remains significant, although the interpretation is limited.  It appears that for those who are making over $30,000 a year, there is some evidence that a higher income increases the likelihood of those with the GA allele using drugs and alcohol.  
+However, it appears that this might be very sensitive to just a few points, which should make us quite anxious about interpretation. Below the the values plotted, with a linear estimate their to ease interpretation (note we have used logistic regressions to estimate the true values). As should be apparent, those with the GA version of the rs12364283  did not span the whole range of household income (no participant had a reported income below $30,000), and the interaction could be driven by an outlier, which is made larger in Figure 2a. A conservative way of correcting for this would be to limit the range similarly for those with the AA allele, and removing the outlier, then rerunning the ANOVA. This is showin in Figure 2b. It appears the that in by doing both, the relationship remains significant, although the interpretation is limited.  It appears that for those who are making over $30,000 a year, there is some evidence that a higher income increases the likelihood of those with the GA allele using drugs and alcohol.  
 
 Note in these graphs, the binary response variable has been jittered for legibility.
 
@@ -495,32 +495,36 @@ Note in these graphs, the binary response variable has been jittered for legibil
 
 Data$outlier <- 0.1
 Data[122,"outlier"] <- 1
-qplot(Household_Income,UseSubstance,geom=c("smooth"),method="glm",data=Data,facets=.~rs12364283)+geom_point(aes(Household_Income,jitter(UseSubstance),size=outlier))+ theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_x_continuous(labels = comma)+xlab("Household Income")+ ylab("Used a Substance (1 = Yes)" )+ ggtitle("Influence of rs12364283 Allels and Income on Substance Use")
+qplot(Household_Income,UseSubstance,geom=c("smooth"),method="glm",data=Data,facets=.~rs12364283)+geom_point(aes(Household_Income,jitter(UseSubstance),size=outlier))+ theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_x_continuous(labels = comma)+xlab("Household Income")+ ylab("Used a Substance (1 = Yes)" )+ ggtitle("Figure 2a: \n Influence of rs12364283 Alleles and Income on Substance Use")
 ```
-  \newpage
+
+\newpage
   
     
     
      
 
 ```{r,echo=FALSE}
-qplot(Household_Income,UseSubstance,geom=c("smooth"),method="glm",data=Data[Data$Log10_Household_Income>4.5,],facets=.~rs12364283)+geom_point(aes(Household_Income,jitter(UseSubstance)))+ theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_x_continuous(labels = comma) +xlab("Household Income")+ ylab("Used a Substance (1 = Yes)" )+ ggtitle("Influence of rs12364283 Alleles \n and Income on Substance Use, \n Income>$30,000")
+
+Data<-
+
+qplot(Household_Income,UseSubstance,geom=c("smooth"),method="glm",data=Data[-122,][Data$Log10_Household_Income>4.5,],facets=.~rs12364283)+geom_point(aes(Household_Income,jitter(UseSubstance)))+ theme(axis.text.x = element_text(angle = 90, hjust = 1))+scale_x_continuous(labels = comma) +xlab("Household Income")+ ylab("Used a Substance (1 = Yes)" )+ ggtitle("Figure2b: \n Influence of rs12364283 Alleles \n and Income on Substance Use, \n Income>$30,000")
 ```
 \newpage
 
 
 
-**Likelihood Ratio Test of the Interaction between DRD2 and Income for Substance Use for Incomes >$30,000 and the Outlier Dropped**  
-
-
+**Likelihood Ratio Test of the Interaction between DRD2 and Income on Substance Use for Incomes >$30,000 and the Outlier Dropped**  
 
 ```{r,echo=FALSE,results='asis'}
 # qplot(Log10_Household_Income,UseSubstance,geom=c("smooth"),method="lm",data=Data[c(-122),],facets=.~rs12364283,color=AgeRound)+geom_point(aes(Log10_Household_Income,jitter(UseSubstance)))
 
 #data 136
 # m4<-glm(UseSubstance~Age+DRD2*Log10_Household_Income,family='binomial',data=Data[c(-122),])
-m5<-glm(UseSubstance~Age+DRD2*Log10_Household_Income,family='binomial',data=Data[Data$Log10_Household_Income>4.5,][-122,])
-xtable(anova(m5,test="Chisq"))
+
+
+# m5<-glm(UseSubstance~Age+DRD2*Log10_Household_Income,family='binomial',data=Data[Data$Log10_Household_Income>4.5,][-122,])
+# xtable(anova(m5,test="Chisq"))
 
 
 ```
