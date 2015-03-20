@@ -1,9 +1,11 @@
 ---
 title: "Final Paper"
 output: pdf_document
+fig_caption: yes
 author: "Rob St. Louis and Sasen Cain, for the Pediatric Imaging, Neurocognition and Genetics Study*"
 bibliography: bibliography.bib
 toc: true
+
 ---
 *Data used in preparation of this article were obtained from the Pediatric Imaging, Neurocognition and Genetics Study (PING) database (http://ping.chd.ucsd.edu). As such, the investigators within PING contributed to the design and implementation of PING and/or provided data but did not participate in analysis or writing of this report. A complete listing of PING investigators can be found at https://ping-dataportal.ucsd.edu/sharing/Authors10222012.pdf.
 
@@ -368,7 +370,7 @@ anova(m0,m2,test="Chisq")
 
 ##Effect of Income and SNPs on Substance Use
 
-We had three interacting hypothesis. The first is that the allelic variants that decreased COMT function and increased dopamine availability in the prefrontal cortex would decrease the likelihood of using a substance. Second, that the allelic variants that increased DRD2 receptor density in the striatum would decrease the likelihood of using a substance. We put a greater focus on COMT as there was greater population variability in the allels. Overall we found that 87 of the 51 participants had used a substance.  
+We had three interacting hypothesis. The first is that the allelic variants that decreased COMT function and increased dopamine availability in the prefrontal cortex would decrease the likelihood of using a substance. Second, that the allelic variants that increased DRD2 receptor density in the striatum would decrease the likelihood of using a substance. We put a greater focus on COMT as there was greater population variability in the allels. Overall we found that 87 of the 151 participants had used a substance.  
 
 
 \newpage
@@ -379,7 +381,7 @@ We had three interacting hypothesis. The first is that the allelic variants that
 
 ```
 
-We conducted a logistic regression, the beta weights and Wald-z values are reported blow. As is clear, nothing except age is signifcant at the $\alpha$=.5 level. There is no evidence that the COMT polymorphism is related to substance use. 
+We conducted a logistic regression, the beta weights and Wald-z values are reported blow. As is clear, nothing except age is signifcant at the $\alpha$=.05 level. There is no evidence that the COMT polymorphism is related to substance use. 
 
 
 **Logistic Regression:Likelihood of using a substance**
@@ -408,7 +410,7 @@ xtable(summary(m3))
 
 The likelihood ratio test below confirms the lack of a main effect or interaction. 
 
-**Likelihood Ratio Test on the interaction between COMT and Income **
+**Likelihood Ratio Test on the interaction between COMT and Income On Substance use **
 ```{r,echo=FALSE,results='asis'}
 xtable(anova(m3,test="Chisq"))
 ```
